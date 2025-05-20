@@ -39,7 +39,7 @@ const GetStartedForm = () => {
 
     try {
       const response = await axios.post(
-        "https://mpformbackend.onrender.com",
+        "https://mpformbackend.onrender.com/api/contact",
         formData,
         {
           headers: { "Content-Type": "application/json" },

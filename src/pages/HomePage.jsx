@@ -1,6 +1,5 @@
 import React from 'react'
-import RegistrationForm from '../Components/RegistrationForm'
-
+import RegistrationForm from "../components/RegistrationForm.jsx"
 const HomePage = () => {
   return (
  <>

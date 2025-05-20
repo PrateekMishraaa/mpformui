@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import Logo from "../assets/mplogo.png";
 import { BsWhatsapp } from "react-icons/bs";
+import { IoMdCall } from "react-icons/io";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import axios from "axios";
 import Loader from './Loader';
-import { IoMdCall } from "react-icons/io";
-
 
 const GetStartedForm = () => {
   const [loader, setLoader] = useState(false);
@@ -38,39 +37,37 @@ const GetStartedForm = () => {
 
     setLoader(true);
 
-    // Wait for exactly 2 seconds before submitting the form
-    setTimeout(async () => {
-      try {
-        const response = await axios.post(
-          "https://mpformbackend.onrender.com/contact",
-          formData,
-          {
-            headers: { "Content-Type": "application/json" },
-          }
-        );
+    try {
+      const response = await axios.post(
+        "https://mpformbackend.onrender.com/contact",
+        formData,
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
 
-        toast.success(response.data.message || "Form submitted successfully");
+      toast.success(response.data.message || "Form submitted successfully");
 
-        // Reset form
-        setFormData({
-          Name: '',
-          Email: '',
-          Message: '',
-          Mobile: '',
-          accepted: false,
-        });
+      // Reset form
+      setFormData({
+        Name: '',
+        Email: '',
+        Message: '',
+        Mobile: '',
+        accepted: false,
+      });
 
-        // Redirect after a small delay so user can see toast
-        setTimeout(() => {
-          window.location.href = "https://mpholidays.in/";
-        }, 1500);
+      // Optional delay to let toast show
+      setTimeout(() => {
+        window.location.href = "https://mpholidays.in/";
+      }, 1500);
 
-      } catch (error) {
-        console.error(error);
-        toast.error(error.response?.data?.message || "Something went wrong. Please try again later.");
-        setLoader(false); // Stop loader if error
-      }
-    }, 2000);
+    } catch (error) {
+      console.error(error);
+      toast.error(error.response?.data?.message || "Something went wrong. Please try again later.");
+    } finally {
+      setLoader(false);
+    }
   };
 
   return (
@@ -80,7 +77,7 @@ const GetStartedForm = () => {
           <Loader />
         </div>
       ) : (
-        <div className="w-full min-h-screen bg-cover bg-center bg-no-repeat flex items-center justify-center relative overflow-hidden">
+        <div className="w-full min-h-screen bg-cover bg-center flex items-center justify-center relative overflow-hidden">
           <div className="absolute inset-0 bg-white/70 backdrop-blur-sm z-0"></div>
 
           <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
@@ -88,8 +85,10 @@ const GetStartedForm = () => {
           </div>
 
           <div className="z-10 w-full max-w-md bg-white rounded-2xl shadow-lg p-6 sm:p-8 mx-2 mt-28">
-            <p className='text-3xl cursor-pointer hover:text-orange-700 transition font-semibold font-sans mb-10 text-center text-green-600'>Sign-Up For Amazing Deals!</p>
-            <p className="text-center text-gray-700 font-medium text-sm mb-4">
+            <p className='text-3xl text-center text-green-600 font-semibold mb-10'>
+              Sign-Up For Amazing Deals!
+            </p>
+            <p className="text-center text-gray-700 text-sm mb-4">
               Get Exclusive Offers! Complete the form and we’ll connect with you shortly.
             </p>
             <form onSubmit={handleSubmit} className="space-y-4">
@@ -147,7 +146,7 @@ const GetStartedForm = () => {
                   required
                 />
                 <label className="text-sm text-gray-600">
-                  I accept the{' '}
+                  I accept the{" "}
                   <span className="text-green-600 font-medium hover:underline cursor-pointer">
                     Terms of Service
                   </span>
@@ -155,7 +154,7 @@ const GetStartedForm = () => {
               </div>
               <button
                 type="submit"
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition duration-300"
+                className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-2 rounded-md transition"
               >
                 Submit your request
               </button>
@@ -163,7 +162,7 @@ const GetStartedForm = () => {
           </div>
 
           <div className="absolute bottom-0 left-0 w-full z-0">
-            <svg className="w-full" viewBox="0 0 1440 320" xmlns="http://www.w3.org/2000/svg">
+            <svg className="w-full" viewBox="0 0 1440 320">
               <path
                 fill="#fff"
                 fillOpacity="1"
@@ -174,29 +173,27 @@ const GetStartedForm = () => {
         </div>
       )}
 
-    <div className="fixed bottom-2 z-30 right-4 sm:right-6 md:right-10">
-  <a
-    href="https://wa.me/919319184060"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="p-2 rounded-full shadow-lg hover:shadow-xl transition"
-  >
-    <BsWhatsapp className="text-3xl sm:text-4xl md:text-5xl text-green-600" />
-  </a>
-</div>
+      {/* Floating WhatsApp */}
+      <div className="fixed bottom-2 z-30 right-4 sm:right-6 md:right-10">
+        <a
+          href="https://wa.me/919319184060"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="p-2 rounded-full shadow-lg hover:shadow-xl transition"
+        >
+          <BsWhatsapp className="text-4xl text-green-600" />
+        </a>
+      </div>
 
-<div className="fixed bottom-2 z-30 left-4 sm:left-6 md:left-8">
-  <a
-    href="tel:91-91 9319184060"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="p-2 rounded-full shadow-lg hover:shadow-xl transition"
-  >
-    <IoMdCall className="text-3xl sm:text-4xl md:text-5xl text-green-600" />
-  </a>
-</div>
-
-        
+      {/* Floating Call */}
+      <div className="fixed bottom-2 z-30 left-4 sm:left-6 md:left-8">
+        <a
+          href="tel:+919319184060"
+          className="p-2 rounded-full shadow-lg hover:shadow-xl transition"
+        >
+          <IoMdCall className="text-4xl text-green-600" />
+        </a>
+      </div>
 
       <ToastContainer />
     </>
